@@ -21,7 +21,7 @@ export function Help() {
           <span className="sr-only">Need Help?</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Como jogar</DialogTitle>
           <DialogDescription>
