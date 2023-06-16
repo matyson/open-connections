@@ -62,7 +62,7 @@ const ToggleButton = ({
     <motion.div layout>
       {isOn ? (
         <Button
-          className="w-full h-16 hover:animate-wiggle"
+          className="w-full h-16 lg:h-24 hover:animate-wiggle"
           onClick={() => handleToggle(word)}
         >
           <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
@@ -72,7 +72,7 @@ const ToggleButton = ({
           disabled={selected.length > 3}
           variant={"outline"}
           onClick={() => handleToggle(word)}
-          className="w-full h-16 hover:animate-wiggle"
+          className="w-full h-16 lg:h-24 hover:animate-wiggle"
         >
           <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
         </Button>
