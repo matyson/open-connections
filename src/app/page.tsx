@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IWord, useStore } from "~/lib/store";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, animate } from "framer-motion";
 import { Lightbulb } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import ConfettiExplosion from "react-confetti-explosion";
@@ -36,7 +36,11 @@ const ToggleButton = ({
   };
 
   return (
-    <motion.div layout>
+    <motion.div
+      layout
+      exit={{ opacity: 0 }}
+      transition={{ ease: "easeOut", duration: 0.5 }}
+    >
       {isOn ? (
         <Button
           className="w-full h-16 lg:h-32 hover:animate-wiggle"
@@ -80,11 +84,19 @@ export default function Home() {
   const [chances, setChances] = useState(4);
   const [mainkey, setMainkey] = useState(0);
   const [wordStateKey, setWordStateKey] = useState(0);
+  const [isLoosing, setIsLoosing] = useState(false);
   const [hits, setHits] = useState<IHits>({});
 
   useEffect(() => {
     setWords(() => selectWords());
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(hits).length === 4 && !isLoosing) {
+      setIsExploding(true);
+    }
+  }, [hits, isLoosing]);
+
 
   const handleSubmit = () => {
     console.log(selected);
@@ -99,11 +111,12 @@ export default function Home() {
         ...h,
         [labels[0]]: selected.map((w) => w.name),
       }));
+    } else {
+      setChances((c) => c - 1);
     }
     // unselect all words
     clear();
     setWordStateKey(wordStateKey + 1);
-    setChances((c) => c - 1);
   };
 
   const handleReset = () => {
@@ -112,7 +125,26 @@ export default function Home() {
     console.log(selectWords());
     setMainkey(mainkey + 1);
     setChances(4);
+    setHits({});
   };
+
+
+  useEffect(() => {
+    const handleLoose = () => {
+      const labels = words.map((w) => w.label);
+      labels.map((lb) =>
+        setHits((h) => ({
+          ...h,
+          [lb]: words.filter((w) => w.label === lb).map((w) => w.name),
+        }))
+      );
+      setWords([]);
+    };
+    if (chances === 0 && !isLoosing) {
+      handleLoose();
+      setIsLoosing(true);
+    }
+  }, [chances, words, isLoosing]);
 
   const selectColor = (label: string) => {
     switch (label) {
@@ -153,27 +185,33 @@ export default function Home() {
             duration: 0.1,
             type: "spring",
             stiffness: 6000,
-            damping: 4,
+            damping: 10,
           }}
           key={wordStateKey}
         >
           <AnimatePresence>
-            {Object.keys(hits).map((hit) => (
-              <Card
-                className={cn(
-                  "text-center col-span-4 bg-amber-400 lg:py-4 ",
-                  selectColor(hit)
-                )}
-                key={hit}
-              >
-                <CardHeader>
-                  <CardTitle className="dark:text-black">{hit}</CardTitle>
-                  <CardDescription className="dark:text-gray-600">
-                    {hits[hit].map((word) => word).join(", ")}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ ease: "easeOut", duration: 2 }}
+              className="col-span-4"
+            >
+              {Object.keys(hits).map((hit) => (
+                <Card
+                  className={cn(
+                    "text-center  bg-amber-400 lg:py-4",
+                    selectColor(hit)
+                  )}
+                  key={hit}
+                >
+                  <CardHeader>
+                    <CardTitle className="dark:text-black">{hit}</CardTitle>
+                    <CardDescription className="dark:text-gray-600">
+                      {hits[hit].map((word) => word).join(", ")}
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              ))}
+            </motion.div>
             {words.map((word) => (
               <ToggleButton word={word} key={word.name}>
                 {word.name}
@@ -199,13 +237,17 @@ export default function Home() {
         <Button variant="destructive" onClick={handleReset}>
           Novo Jogo
         </Button>
-        <Button onClick={() => setWords(shuffle(words))} variant="outline" disabled={words.length < 1}>
+        <Button
+          onClick={() => setWords(shuffle(words))}
+          variant="outline"
+          disabled={words.length < 1}
+        >
           Misturar
         </Button>
         <Button
           onClick={handleSubmit}
           variant={selected.length < 4 ? "outline" : "default"}
-          disabled={selected.length < 4}
+          disabled={selected.length < 4 || chances < 1}
         >
           Chutar
         </Button>
