@@ -1,61 +1,31 @@
 "use client";
-import { useState } from "react";
-import { useStore } from "~/lib/store";
+import { useEffect, useState } from "react";
+import { IWord, useStore } from "~/lib/store";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import ConfettiExplosion from "react-confetti-explosion";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
 import shuffle from "lodash.shuffle";
-
-const words = [
-  "Banana",
-  "Fogo",
-  "Frio",
-  "Foguete",
-  "Carro",
-  "Doce",
-  "Kombi",
-  "Janela",
-  "Livro",
-  "Palmito",
-  "Colher",
-  "Chuva",
-  "Vento",
-  "Pizza",
-  "Caneta",
-  "Chave",
-];
-
-const answers = {
-  tempo: ["Fogo", "Frio", "Vento", "Chuva"],
-  comida: ["Banana", "Doce", "Palmito", "Pizza"],
-  casa: ["Janela", "Livro", "Colher", "Chave"],
-  transporte: ["Foguete", "Carro", "Kombi", "Caneta"],
-};
+import { vocabulary } from "~/lib/words";
 
 const ToggleButton = ({
   word,
   children,
 }: {
-  word: string;
+  word: IWord;
   children: React.ReactNode;
 }) => {
   const { selected, append, remove } = useStore();
   const [isOn, setIsOn] = useState(false);
 
-  const handleToggle = (word: string) => {
-    if (!isOn) {
+  const handleToggle = (word: IWord) => {
+    // check if the word is in the selected array
+    if (!selected.find((w) => w.name === word.name)) {
       append(word);
     } else {
       remove(word);
     }
-    setIsOn((isOn) => !isOn);
+    setIsOn((s) => !s);
   };
 
   return (
@@ -82,9 +52,53 @@ const ToggleButton = ({
 };
 
 export default function Home() {
-  const [bears, setBears] = useState(words);
+  const selectWords = () => {
+    // get 4 random keys from vocabulary object
+    const keys = shuffle(Object.keys(vocabulary)).slice(0, 4);
+    // get 4 random words from each array of words in vocabulary object from the selected keys
+    return keys
+      .map((key) =>
+        shuffle(vocabulary[key])
+          .slice(0, 4)
+          .map((word) => ({ name: word, label: key } as IWord))
+      )
+      .flat();
+  };
+  const [words, setWords] = useState<IWord[]>([]);
   const [isExploding, setIsExploding] = useState(false);
-  const { selected } = useStore();
+  const { selected, clear } = useStore();
+  const [chances, setChances] = useState(4);
+  const [mainkey, setMainkey] = useState(0);
+  const [wordStateKey, setWordStateKey] = useState(0);
+
+  useEffect(() => {
+    setWords(() => selectWords());
+  }, []);
+
+  const handleSubmit = () => {
+    console.log(selected);
+    // if all selected words are from the same label, then the user chances
+    const labels = selected.map((w) => w.label);
+    const isSameLabel = labels.every((label) => label === labels[0]);
+    if (isSameLabel) {
+      // remove the selected words from the words array
+      setWords(words.filter((w) => !selected.includes(w)));
+      console.log("You win!");
+      setIsExploding(true);
+    }
+    // unselect all words
+    clear();
+    setWordStateKey(wordStateKey + 1);
+    setChances((c) => c - 1);
+  };
+
+  const handleReset = () => {
+    clear();
+    setWords(selectWords());
+    console.log(selectWords());
+    setMainkey(mainkey + 1);
+    setChances(4);
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-evenly">
@@ -99,63 +113,57 @@ export default function Home() {
             duration={3000}
             particleCount={250}
             width={1600}
+            onComplete={() => setIsExploding(false)}
           />
         )}
-
-        {/* <Card className="col-span-4 bg-amber-400">
-          <CardHeader>
-            <CardTitle>Tempo</CardTitle>
-            <CardDescription>
-              {" "}
-              Palavras que se referem ao tempo.
-            </CardDescription>
-          </CardHeader>
-        </Card> */}
-        {/* <Card className="col-span-4 bg-lime-400">
-      <CardHeader>
-        <CardTitle>Tempo</CardTitle>
-        <CardDescription> Palavras que se referem ao tempo.</CardDescription>
-      </CardHeader>
-      </Card>
-      <Card className="col-span-4 bg-cyan-400">
-      <CardHeader>
-        <CardTitle>Tempo</CardTitle>
-        <CardDescription> Palavras que se referem ao tempo.</CardDescription>
-      </CardHeader>
-      </Card>
-      <Card className="col-span-4 bg-purple-400">
-      <CardHeader>
-        <CardTitle>Tempo</CardTitle>
-        <CardDescription> Palavras que se referem ao tempo.</CardDescription>
-      </CardHeader>
-      </Card> */}
-        <AnimatePresence>
-          <div className="grid grid-cols-4 gap-1">
-            {bears.map((word) => (
-              <ToggleButton word={word} key={word}>
-                {word}
+        <motion.div
+          className="grid grid-cols-4 gap-1"
+          layout
+          animate={{ scale: [1, 1.1, 0.9, 1], rotate: [-5, 0, 5, 0] }}
+          transition={{
+            duration: 0.1,
+            type: "spring",
+            stiffness: 6000,
+            damping: 4,
+          }}
+          key={wordStateKey}
+        >
+          <AnimatePresence>
+            {words.map((word) => (
+              <ToggleButton word={word} key={word.name}>
+                {word.name}
               </ToggleButton>
             ))}
-          </div>
-        </AnimatePresence>
+          </AnimatePresence>
+        </motion.div>
       </div>
+      
       <div className="grid grid-cols-4 gap-2">
-        <Lightbulb className="fill-black dark:fill-white" size={20} />
-        <Lightbulb className="fill-black dark:fill-white" size={20} />
-        <Lightbulb size={20} />
-        <Lightbulb size={20} />
+        {[...Array(chances)].map((_, i) => (
+          <Lightbulb
+            className="fill-black dark:fill-white"
+            size={20}
+            key={"bulb_" + i}
+          />
+        ))}
+        {[...Array(4 - chances)].map((_, i) => (
+          <Lightbulb size={20} key={"bulb_" + i} />
+        ))}
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        <Button variant="outline" onClick={handleReset}>
+          Novo Jogo
+        </Button>
         <Button
-          className="col-span-2"
-          onClick={() => setBears(shuffle(bears))}
+          onClick={() => setWords(shuffle(words))}
           variant="outline"
         >
           Misturar
         </Button>
         <Button
-          className="col-span-2"
+          onClick={handleSubmit}
           variant={selected.length < 4 ? "outline" : "default"}
           disabled={selected.length < 4}
-          onClick={() => setIsExploding(true)}
         >
           Chutar
         </Button>
