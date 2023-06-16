@@ -7,6 +7,13 @@ import { Button } from "~/components/ui/button";
 import ConfettiExplosion from "react-confetti-explosion";
 import shuffle from "lodash.shuffle";
 import { vocabulary } from "~/lib/words";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
+import { cn } from "~/lib/utils";
 
 const ToggleButton = ({
   word,
@@ -32,7 +39,7 @@ const ToggleButton = ({
     <motion.div layout>
       {isOn ? (
         <Button
-          className="w-full h-16 lg:h-24 hover:animate-wiggle"
+          className="w-full h-16 lg:h-32 hover:animate-wiggle"
           onClick={() => handleToggle(word)}
         >
           <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
@@ -42,7 +49,7 @@ const ToggleButton = ({
           disabled={selected.length > 3}
           variant={"outline"}
           onClick={() => handleToggle(word)}
-          className="w-full h-16 lg:h-24 hover:animate-wiggle"
+          className="w-full h-16 lg:h-32 hover:animate-wiggle"
         >
           <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
         </Button>
@@ -51,6 +58,9 @@ const ToggleButton = ({
   );
 };
 
+interface IHits {
+  [key: string]: string[];
+}
 export default function Home() {
   const selectWords = () => {
     // get 4 random keys from vocabulary object
@@ -70,6 +80,7 @@ export default function Home() {
   const [chances, setChances] = useState(4);
   const [mainkey, setMainkey] = useState(0);
   const [wordStateKey, setWordStateKey] = useState(0);
+  const [hits, setHits] = useState<IHits>({});
 
   useEffect(() => {
     setWords(() => selectWords());
@@ -83,8 +94,11 @@ export default function Home() {
     if (isSameLabel) {
       // remove the selected words from the words array
       setWords(words.filter((w) => !selected.includes(w)));
-      console.log("You win!");
-      setIsExploding(true);
+      // add the selected words to the hits array
+      setHits((h) => ({
+        ...h,
+        [labels[0]]: selected.map((w) => w.name),
+      }));
     }
     // unselect all words
     clear();
@@ -98,6 +112,21 @@ export default function Home() {
     console.log(selectWords());
     setMainkey(mainkey + 1);
     setChances(4);
+  };
+
+  const selectColor = (label: string) => {
+    switch (label) {
+      case "LNLS":
+        return "bg-blue-300";
+      case "LNNano":
+        return "bg-amber-400";
+      case "LNBio":
+        return "bg-indigo-300";
+      case "LNBR":
+        return "bg-green-500";
+      default:
+        return "bg-amber-400";
+    }
   };
 
   return (
@@ -117,7 +146,7 @@ export default function Home() {
           />
         )}
         <motion.div
-          className="grid grid-cols-4 gap-1"
+          className="grid grid-cols-4 gap-1 m-1"
           layout
           animate={{ scale: [1, 1.1, 0.9, 1], rotate: [-5, 0, 5, 0] }}
           transition={{
@@ -129,6 +158,22 @@ export default function Home() {
           key={wordStateKey}
         >
           <AnimatePresence>
+            {Object.keys(hits).map((hit) => (
+              <Card
+                className={cn(
+                  "text-center col-span-4 bg-amber-400 lg:py-4 ",
+                  selectColor(hit)
+                )}
+                key={hit}
+              >
+                <CardHeader>
+                  <CardTitle className="dark:text-black">{hit}</CardTitle>
+                  <CardDescription className="dark:text-gray-600">
+                    {hits[hit].map((word) => word).join(", ")}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            ))}
             {words.map((word) => (
               <ToggleButton word={word} key={word.name}>
                 {word.name}
@@ -137,7 +182,7 @@ export default function Home() {
           </AnimatePresence>
         </motion.div>
       </div>
-      
+
       <div className="grid grid-cols-4 gap-2">
         {[...Array(chances)].map((_, i) => (
           <Lightbulb
@@ -151,13 +196,10 @@ export default function Home() {
         ))}
       </div>
       <div className="grid grid-cols-3 gap-2">
-        <Button variant="outline" onClick={handleReset}>
+        <Button variant="destructive" onClick={handleReset}>
           Novo Jogo
         </Button>
-        <Button
-          onClick={() => setWords(shuffle(words))}
-          variant="outline"
-        >
+        <Button onClick={() => setWords(shuffle(words))} variant="outline" disabled={words.length < 1}>
           Misturar
         </Button>
         <Button
