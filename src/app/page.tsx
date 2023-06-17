@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
+import toast, { Toaster } from "react-hot-toast";
 
 const ToggleButton = ({
   word,
@@ -81,7 +82,7 @@ export default function Home() {
   const [words, setWords] = useState<IWord[]>([]);
   const [isExploding, setIsExploding] = useState(false);
   const { selected, clear } = useStore();
-  const [chances, setChances] = useState(4);
+  const [chances, setChances] = useState(4); 
   const [mainkey, setMainkey] = useState(0);
   const [wordStateKey, setWordStateKey] = useState(0);
   const [isLoosing, setIsLoosing] = useState(false);
@@ -94,9 +95,9 @@ export default function Home() {
   useEffect(() => {
     if (Object.keys(hits).length === 4 && !isLoosing) {
       setIsExploding(true);
+      toast.success('Você acertou! Parabéns!', { icon: '🎉'});
     }
   }, [hits, isLoosing]);
-
 
   const handleSubmit = () => {
     console.log(selected);
@@ -128,7 +129,6 @@ export default function Home() {
     setHits({});
   };
 
-
   useEffect(() => {
     const handleLoose = () => {
       const labels = words.map((w) => w.label);
@@ -143,6 +143,7 @@ export default function Home() {
     if (chances === 0 && !isLoosing) {
       handleLoose();
       setIsLoosing(true);
+      toast.error(' Fim das tentativas! Tente outra vez!', { icon: '🥲'});
     }
   }, [chances, words, isLoosing]);
 
@@ -164,6 +165,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-evenly">
       <div>
+        <Toaster position="bottom-center" reverseOrder={false} />
         <h1 className="py-2 text-center text-sm text-muted-foreground">
           Escolha 4 palavras
         </h1>
