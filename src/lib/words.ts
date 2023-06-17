@@ -8,6 +8,8 @@ export const vocabulary : {[key: string]: string[]} = {
     "macromoléculas",
     "calorimetria",
     "RMN",
+    "cultura de células",
+    "desenvolvimento de fármacos",
   ],
   "LNBR": [
     "nanocelulose",
