@@ -104,7 +104,6 @@ export default function Home() {
   }, [hits, isLoosing]);
 
   const handleSubmit = () => {
-    // console.log(selected);
     // if all selected words are from the same label, then the user chances
     const labels = selected.map((w) => w.label);
     const isSameLabel = labels.every((label) => label === labels[0]);
@@ -126,11 +125,13 @@ export default function Home() {
 
   const handleReset = () => {
     clear();
+    setWordStateKey(wordStateKey + 1);
     setWords(selectWords());
-    console.log(selectWords());
     setMainkey(mainkey + 1);
     setChances(4);
     setHits({});
+    setIsLoosing(false);
+    setIsExploding(false);
   };
 
   useEffect(() => {
