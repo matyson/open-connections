@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IWord, useStore } from "~/lib/store";
-import { motion, AnimatePresence, animate } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import ConfettiExplosion from "react-confetti-explosion";
@@ -56,7 +56,9 @@ const ToggleButton = ({
           onClick={() => handleToggle(word)}
           className="w-full h-16 lg:h-32 hover:animate-wiggle"
         >
-          <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
+          <h2 className={`text-xs lg:text-2xl font-semibold`}>
+            {children}
+          </h2>
         </Button>
       )}
     </motion.div>

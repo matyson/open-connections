@@ -43,6 +43,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
               <div className="flex-1">{children}</div>
+              <footer className="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+                <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+                  <span className="text-xs text-gray-500 sm:text-center dark:text-gray-400">
+                    © 2023{" "}
+                    <a href="https://cnpem.br" className="hover:underline">
+                      CNPEM
+                    </a>
+                    . Feito com ❤️ + ☕
+                  </span>
+                </div>
+              </footer>
             </div>
           </ThemeProvider>
         </body>
