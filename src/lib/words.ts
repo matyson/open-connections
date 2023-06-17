@@ -7,7 +7,7 @@ export const vocabulary : {[key: string]: string[]} = {
     "espectrometria",
     "macromoléculas",
     "calorimetria",
-    "RMN",
+    "ressonância magnética nuclear",
     "cultura de células",
     "desenvolvimento de fármacos",
   ],
@@ -43,7 +43,7 @@ export const vocabulary : {[key: string]: string[]} = {
     "nanoscopia"
   ],
   "LNNano": [
-    "Materiais 2D",
+    "materiais 2D",
     "Fotossíntese artificial",
     "grafeno",
     "perovskitas",
