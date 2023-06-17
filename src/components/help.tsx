@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { HelpCircle} from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +39,7 @@ export function Help() {
             <h1>
               <div className="border-4 border-double grid grid-cols-4 p-4 gap-2 space-x-0">
                 <span className="col-span-4 text-xs text-center font-semibold">
-                ⚠️ Você pode errar no máximo 4 vezes! ⚠️
+                  ⚠️ Você pode errar no máximo 4 vezes! ⚠️
                 </span>
                 <div className="px-8">
                   <motion.svg
@@ -51,8 +51,13 @@ export function Help() {
                     stroke-linejoin="round"
                     className="w-4 h-4 lucide lucide-lightbulb"
                     fill="none"
-                    animate={{fill:"currentColor", opacity:[0,1]}}
-                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.9 }}
+                    animate={{ fill: "currentColor", opacity: [0, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      duration: 2.0,
+                      delay: 0.9,
+                    }}
                   >
                     <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
                     <path d="M9 18h6" />
@@ -69,8 +74,13 @@ export function Help() {
                     stroke-linejoin="round"
                     className="w-4 h-4 lucide lucide-lightbulb"
                     fill="none"
-                    animate={{fill:"currentColor", opacity:[0,1]}}
-                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.6 }}
+                    animate={{ fill: "currentColor", opacity: [0, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      duration: 2.0,
+                      delay: 0.6,
+                    }}
                   >
                     <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
                     <path d="M9 18h6" />
@@ -87,8 +97,13 @@ export function Help() {
                     stroke-linejoin="round"
                     className="w-4 h-4 lucide lucide-lightbulb"
                     fill="none"
-                    animate={{fill:"currentColor", opacity:[0,1]}}
-                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.3 }}
+                    animate={{ fill: "currentColor", opacity: [0, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      duration: 2.0,
+                      delay: 0.3,
+                    }}
                   >
                     <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
                     <path d="M9 18h6" />
@@ -105,8 +120,13 @@ export function Help() {
                     stroke-linejoin="round"
                     className="w-4 h-4 lucide lucide-lightbulb"
                     fill="none"
-                    animate={{fill:"currentColor", opacity:[0,1]}}
-                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.0 }}
+                    animate={{ fill: "currentColor", opacity: [0, 1] }}
+                    transition={{
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      duration: 2.0,
+                      delay: 0.0,
+                    }}
                   >
                     <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
                     <path d="M9 18h6" />

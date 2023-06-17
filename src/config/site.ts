@@ -1,9 +1,9 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "ConnectionZ",
+  name: "Que lab faz isso?",
   description:
-    "Nyt connections game clone.",
+    "Simples jogo de conexões entre os labs do CNPEM",
   mainNav: [
     {
       title: "Home",
