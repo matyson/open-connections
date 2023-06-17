@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
-import { HelpCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,15 +11,10 @@ import {
 } from "./ui/dialog";
 import { motion } from "framer-motion";
 
-export function Help() {
+export function Help({ children }: { children: React.ReactNode }) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <HelpCircle />
-          <span className="sr-only">Need Help?</span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Que lab faz isso?</DialogTitle>

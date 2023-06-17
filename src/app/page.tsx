@@ -91,6 +91,12 @@ export default function Home() {
 
   useEffect(() => {
     setWords(() => selectWords());
+    setTimeout(() => {
+      toast(
+        "Encontre grupos de 4 palavras que estejam relacionadas a um dos laboratórios. Você tem 4 chances para acertar!\n\nPara mais informações, clique no ícone de ajuda.",
+        { duration: 8000 }
+      );
+    }, 2000);
   }, []);
 
   useEffect(() => {

@@ -1,6 +1,8 @@
-import { MainNav } from "~/components/main-nav"
-import { ThemeToggle } from "~/components/theme-toggle"
-import { Help } from "./help"
+import { MainNav } from "~/components/main-nav";
+import { ThemeToggle } from "~/components/theme-toggle";
+import { Help } from "./help";
+import { HelpCircle } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function SiteHeader() {
   return (
@@ -10,10 +12,15 @@ export function SiteHeader() {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
             <ThemeToggle />
-            <Help />
+            <Help>
+              <Button variant="ghost" size="sm">
+                <HelpCircle />
+                <span className="sr-only">Need Help?</span>
+              </Button>
+            </Help>
           </nav>
         </div>
       </div>
     </header>
-  )
+  );
 }
