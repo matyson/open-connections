@@ -37,8 +37,8 @@ export function Help() {
               palpite está correto.
             </h1>
             <h1>
-              <div className="border-4 border-double grid grid-cols-4 p-4 gap-2 text-center space-x-0">
-                <span className="col-span-4">
+              <div className="border-4 border-double grid grid-cols-4 p-4 gap-2 space-x-0">
+                <span className="col-span-4 text-xs text-center font-semibold">
                 ⚠️ Você pode errar no máximo 4 vezes! ⚠️
                 </span>
                 <div className="px-8">
