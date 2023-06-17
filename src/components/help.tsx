@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { motion } from "framer-motion";
 
 export function Help() {
   return (
@@ -23,33 +24,110 @@ export function Help() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Como jogar</DialogTitle>
+          <DialogTitle>Que lab faz isso?</DialogTitle>
           <DialogDescription>
-            Encontre grupos de 4 palavras que compartilhem de alguma categoria.
+            Encontre grupos de 4 palavras que estejam relacionadas a um dos
+            laboratórios.
           </DialogDescription>
         </DialogHeader>
         <div>
-          <div>
+          <div className="flex flex-col space-y-2">
+            <h1>
+              Escolha 4 itens e clique em <b>Chutar</b> para checar se seu
+              palpite está correto.
+            </h1>
+            <h1>
+              <div className="border-4 border-double grid grid-cols-4 p-4 gap-2 text-center space-x-0">
+                <span className="col-span-4">
+                ⚠️ Você pode errar no máximo 4 vezes! ⚠️
+                </span>
+                <div className="px-8">
+                  <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="w-4 h-4 lucide lucide-lightbulb"
+                    fill="none"
+                    animate={{fill:"currentColor", opacity:[0,1]}}
+                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.9 }}
+                  >
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                    <path d="M9 18h6" />
+                    <path d="M10 22h4" />
+                  </motion.svg>
+                </div>
+                <div className="px-8">
+                  <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="w-4 h-4 lucide lucide-lightbulb"
+                    fill="none"
+                    animate={{fill:"currentColor", opacity:[0,1]}}
+                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.6 }}
+                  >
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                    <path d="M9 18h6" />
+                    <path d="M10 22h4" />
+                  </motion.svg>
+                </div>
+                <div className="px-8">
+                  <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="w-4 h-4 lucide lucide-lightbulb"
+                    fill="none"
+                    animate={{fill:"currentColor", opacity:[0,1]}}
+                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.3 }}
+                  >
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                    <path d="M9 18h6" />
+                    <path d="M10 22h4" />
+                  </motion.svg>
+                </div>
+                <div className="px-8">
+                  <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="w-4 h-4 lucide lucide-lightbulb"
+                    fill="none"
+                    animate={{fill:"currentColor", opacity:[0,1]}}
+                    transition={{repeat:Infinity, repeatType:"reverse",duration:2.0, delay:0.0 }}
+                  >
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                    <path d="M9 18h6" />
+                    <path d="M10 22h4" />
+                  </motion.svg>
+                </div>
+              </div>
+            </h1>
+            <span className="font-bold">Exemplos:</span>
             <ul className="list-disc p-5">
               <li>
-                Escolha 4 itens e clique em <b>Chutar</b> para checar se seu
-                palpite está correto.
+                <b>LNLS:</b> SÍNCROTRON, ELÉTRON, ACELERADOR, BOOSTER
               </li>
-              <li>Você pode errar no máximo 4 vezes!</li>
+              <li>
+                <b>LNBio:</b> CÉLULA, VÍRUS, CAMUNDONGO, VACINA
+              </li>
             </ul>
           </div>
-          <span className="font-bold">Exemplos de categorias:</span>
-          <ul className="list-disc p-5">
-            <li><b>TEMPO:</b> Chuva, Calor, Neve, Nublado</li>
-            <li><b>FUTEBOL:</b> BOLA, QUADRA, GOL, CHUTEIRA</li>
-          </ul>
-          <span className="font-semibold">Dica: </span>
-          Categorias sempre serão mais específicas que &quot;NOMES&quot;,
-          &quot;LUGARES&quot;, &quot;COISAS&quot;.
         </div>
-        <DialogFooter>        
-          <i>Cuidado, algumas categorias
-          podem ser complicadas!</i>
+        <DialogFooter>
+          <i>Cuidado, algumas palavras podem enganar!</i>
         </DialogFooter>
       </DialogContent>
     </Dialog>
