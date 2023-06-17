@@ -6,7 +6,6 @@ import { fontSans } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
 import { SiteHeader } from "~/components/site-header";
 import { ThemeProvider } from "~/components/theme-provider";
-import { Heart } from "lucide-react";
 
 export const metadata: Metadata = {
   title: {

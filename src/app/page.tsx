@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IWord, useStore } from "~/lib/store";
-import { motion, AnimatePresence, animate } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import ConfettiExplosion from "react-confetti-explosion";
@@ -56,7 +56,9 @@ const ToggleButton = ({
           onClick={() => handleToggle(word)}
           className="w-full h-16 lg:h-32 hover:animate-wiggle"
         >
-          <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
+          <h2 className={`text-xs lg:text-2xl font-semibold`}>
+            {children}
+          </h2>
         </Button>
       )}
     </motion.div>
@@ -82,7 +84,7 @@ export default function Home() {
   const [words, setWords] = useState<IWord[]>([]);
   const [isExploding, setIsExploding] = useState(false);
   const { selected, clear } = useStore();
-  const [chances, setChances] = useState(4); 
+  const [chances, setChances] = useState(4);
   const [mainkey, setMainkey] = useState(0);
   const [wordStateKey, setWordStateKey] = useState(0);
   const [isLoosing, setIsLoosing] = useState(false);
@@ -95,7 +97,7 @@ export default function Home() {
   useEffect(() => {
     if (Object.keys(hits).length === 4 && !isLoosing) {
       setIsExploding(true);
-      toast.success('Você acertou! Parabéns!', { icon: '🎉'});
+      toast.success("Você acertou! Parabéns!", { icon: "🎉" });
     }
   }, [hits, isLoosing]);
 
@@ -143,7 +145,7 @@ export default function Home() {
     if (chances === 0 && !isLoosing) {
       handleLoose();
       setIsLoosing(true);
-      toast.error(' Fim das tentativas! Tente outra vez!', { icon: '🥲'});
+      toast.error(" Fim das tentativas! Tente outra vez!", { icon: "🥲" });
     }
   }, [chances, words, isLoosing]);
 
