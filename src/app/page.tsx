@@ -71,18 +71,20 @@ export default function Home() {
     // get 4 random keys from vocabulary object
     const keys = shuffle(Object.keys(vocabulary)).slice(0, 4);
     // get 4 random words from each array of words in vocabulary object from the selected keys
-    return keys
-      .map((key) =>
-        shuffle(vocabulary[key])
-          .slice(0, 4)
-          .map((word) => ({ name: word, label: key } as IWord))
-      )
-      .flat();
+    return shuffle(
+      keys
+        .map((key) =>
+          shuffle(vocabulary[key])
+            .slice(0, 4)
+            .map((word) => ({ name: word, label: key } as IWord))
+        )
+        .flat()
+    );
   };
   const [words, setWords] = useState<IWord[]>([]);
   const [isExploding, setIsExploding] = useState(false);
   const { selected, clear } = useStore();
-  const [chances, setChances] = useState(4); 
+  const [chances, setChances] = useState(4);
   const [mainkey, setMainkey] = useState(0);
   const [wordStateKey, setWordStateKey] = useState(0);
   const [isLoosing, setIsLoosing] = useState(false);
@@ -95,7 +97,7 @@ export default function Home() {
   useEffect(() => {
     if (Object.keys(hits).length === 4 && !isLoosing) {
       setIsExploding(true);
-      toast.success('Você acertou! Parabéns!', { icon: '🎉'});
+      toast.success("Você acertou! Parabéns!", { icon: "🎉" });
     }
   }, [hits, isLoosing]);
 
@@ -143,7 +145,7 @@ export default function Home() {
     if (chances === 0 && !isLoosing) {
       handleLoose();
       setIsLoosing(true);
-      toast.error(' Fim das tentativas! Tente outra vez!', { icon: '🥲'});
+      toast.error(" Fim das tentativas! Tente outra vez!", { icon: "🥲" });
     }
   }, [chances, words, isLoosing]);
 
@@ -222,7 +224,6 @@ export default function Home() {
           </AnimatePresence>
         </motion.div>
       </div>
-
       <div className="grid grid-cols-4 gap-2">
         {[...Array(chances)].map((_, i) => (
           <Lightbulb
