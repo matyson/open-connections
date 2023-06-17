@@ -56,9 +56,7 @@ const ToggleButton = ({
           onClick={() => handleToggle(word)}
           className="w-full h-16 lg:h-32 hover:animate-wiggle"
         >
-          <h2 className={`text-xs lg:text-2xl font-semibold`}>
-            {children}
-          </h2>
+          <h2 className={`text-xs lg:text-2xl font-semibold`}>{children}</h2>
         </Button>
       )}
     </motion.div>
@@ -87,7 +85,6 @@ export default function Home() {
   const [isExploding, setIsExploding] = useState(false);
   const { selected, clear } = useStore();
   const [chances, setChances] = useState(4);
-  const [mainkey, setMainkey] = useState(0);
   const [wordStateKey, setWordStateKey] = useState(0);
   const [isLoosing, setIsLoosing] = useState(false);
   const [hits, setHits] = useState<IHits>({});
@@ -120,14 +117,13 @@ export default function Home() {
     }
     // unselect all words
     clear();
-    setWordStateKey(wordStateKey + 1);
+    setWordStateKey((k) => k + 1);
   };
 
   const handleReset = () => {
     clear();
-    setWordStateKey(wordStateKey + 1);
+    setWordStateKey((k) => k + 1);
     setWords(selectWords());
-    setMainkey(mainkey + 1);
     setChances(4);
     setHits({});
     setIsLoosing(false);
